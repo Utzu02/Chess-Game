@@ -5,6 +5,7 @@ import exceptions.InvalidMoveException;
 import model.Board;
 import model.Colors;
 import model.Position;
+import strategy.move.KnightMoveStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class Knight extends Piece {
 
     public Knight(Colors color, Position position) {
         super(color, position);
+        this.moveStrategy = new KnightMoveStrategy();
     }
 
     public char type() {
@@ -20,31 +22,7 @@ public class Knight extends Piece {
     }
 
     public List<Position> getPossibleMoves(Board board) {
-        List<Position> moves = new ArrayList<>();
-        Position position = getPosition();
-
-        int[] dirY = {2, 2, -2, -2, 1, 1, -1, -1};
-        int[] dirX = {1, -1, 1, -1, 2, -2, 2, -2};
-
-        for (int i = 0; i < 8; i++) {
-            try {
-                char x = (char) (position.getX() + dirX[i]);
-                int y = position.getY() + dirY[i];
-                Position newPosition = new Position(x, y);
-
-                Piece piece = board.getPieceAt(newPosition);
-
-                if (piece == null) {
-                    moves.add(newPosition);
-                } else if (piece.getColor() != getColor()) {
-                    moves.add(newPosition);
-                }
-            } catch (InvalidCommandException e) {
-                continue;
-            }
-        }
-
-        return moves;
+        return moveStrategy.getPossibleMoves(board, this);
     }
 
     public boolean checkForCheck(Board board, Position kingPosition) {

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.PieceFactory;
 import model.*;
 import pieces.*;
 
@@ -122,15 +123,19 @@ public final class JsonReaderUtil {
                         Piece piece = null;
                         if (type != null && !type.isEmpty()) {
                             char pieceType = type.charAt(0);
-                            piece = switch (pieceType) {
-                                case 'K' -> new King(color, position);
-                                case 'Q' -> new Queen(color, position);
-                                case 'R' -> new Rook(color, position);
-                                case 'B' -> new Bishop(color, position);
-                                case 'N' -> new Knight(color, position);
-                                case 'P' -> new Pawn(color, position);
-                                default -> piece;
+                            // Use Factory Pattern for piece creation from JSON
+                            String pieceTypeName = switch (pieceType) {
+                                case 'K' -> "KING";
+                                case 'Q' -> "QUEEN";
+                                case 'R' -> "ROOK";
+                                case 'B' -> "BISHOP";
+                                case 'N' -> "KNIGHT";
+                                case 'P' -> "PAWN";
+                                default -> null;
                             };
+                            if (pieceTypeName != null) {
+                                piece = PieceFactory.createPiece(pieceTypeName, color, position);
+                            }
                         }
                         if (piece != null) {
                             if (piece instanceof Pawn pawn) {
@@ -279,15 +284,17 @@ public final class JsonReaderUtil {
                 : new Position("A1");
 
         char pieceType = type.charAt(0);
-        return switch (pieceType) {
-            case 'K' -> new King(color, position);
-            case 'Q' -> new Queen(color, position);
-            case 'R' -> new Rook(color, position);
-            case 'B' -> new Bishop(color, position);
-            case 'N' -> new Knight(color, position);
-            case 'P' -> new Pawn(color, position);
+        String pieceTypeName = switch (pieceType) {
+            case 'K' -> "KING";
+            case 'Q' -> "QUEEN";
+            case 'R' -> "ROOK";
+            case 'B' -> "BISHOP";
+            case 'N' -> "KNIGHT";
+            case 'P' -> "PAWN";
             default -> null;
         };
+
+        return pieceTypeName != null ? PieceFactory.createPiece(pieceTypeName, color, position) : null;
     }
 
     private static JSONArray asArray(Object o) {

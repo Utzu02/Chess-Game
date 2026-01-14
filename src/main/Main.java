@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
+    private static Main instance;
+
     private List<User> users;
     private Map<Integer, Game> games;
     private User currentUser;
@@ -25,10 +27,17 @@ public class Main {
         }
     }
 
-    public Main() {
+    private Main() {
         users = new ArrayList<>();
         games = new HashMap<>();
         scanner = new Scanner(System.in);
+    }
+
+    public static Main getInstance() {
+        if (instance == null) {
+            instance = new Main();
+        }
+        return instance;
     }
 
     public void read() {
@@ -181,7 +190,7 @@ public class Main {
                         viewGamesInProgress();
                         break;
                     case 3:
-                        write(); // Save before logout
+                        write();
                         running = false;
                         currentUser = null;
                         System.out.println("\nLogged out successfully.");
@@ -279,7 +288,6 @@ public class Main {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    // ignore
                 }
                 result = makeComputerMove(game, humanPlayer.getColor());
             } else {
@@ -545,11 +553,21 @@ public class Main {
         }
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public Map<Integer, Game> getGames() {
+        return games;
+    }
+
     public static void main(String[] args) {
-        Main app = new Main();
+        Main app = Main.getInstance();
         app.read();
-        app.run();
-        app.write();
-        System.out.println("\nThank you for playing!");
+        gui.ChessGUI.launchGUI();
     }
 }

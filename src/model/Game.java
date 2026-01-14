@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.InvalidCommandException;
+import observer.GameObserver;
 import pieces.*;
 import exceptions.InvalidMoveException;
 
@@ -16,6 +17,7 @@ public class Game {
     private List<Move> moves;
     private int currentPlayerIndex;
     private Map<String, Integer> boardStates;
+    private List<GameObserver> observers;
 
     public Game() {
         players = new ArrayList<>();
@@ -23,6 +25,7 @@ public class Game {
         board = new Board();
         currentPlayerIndex = 0;
         boardStates = new HashMap<>();
+        observers = new ArrayList<>();
     }
 
     public Game(int id) {
@@ -259,6 +262,52 @@ public class Game {
                 return 6;
             default:
                 return 0;
+        }
+    }
+
+    public void addObserver(GameObserver observer) {
+        if (observer != null && !observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyMoveMade(Move move) {
+        for (GameObserver observer : observers) {
+            observer.onMoveMade(move);
+        }
+    }
+
+    public void notifyPieceCaptured(Piece piece) {
+        for (GameObserver observer : observers) {
+            observer.onPieceCaptured(piece);
+        }
+    }
+
+    public void notifyPlayerSwitch(Player currentPlayer) {
+        for (GameObserver observer : observers) {
+            observer.onPlayerSwitch(currentPlayer);
+        }
+    }
+
+    public void notifyCheck(Player playerInCheck) {
+        for (GameObserver observer : observers) {
+            observer.onCheck(playerInCheck);
+        }
+    }
+
+    public void notifyCheckmate(Player winner) {
+        for (GameObserver observer : observers) {
+            observer.onCheckmate(winner);
+        }
+    }
+
+    public void notifyGameEnd(String result) {
+        for (GameObserver observer : observers) {
+            observer.onGameEnd(result);
         }
     }
 }

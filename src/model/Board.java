@@ -2,6 +2,7 @@ package model;
 
 import exceptions.InvalidCommandException;
 import exceptions.InvalidMoveException;
+import factory.PieceFactory;
 import pieces.*;
 
 import java.util.ArrayList;
@@ -19,30 +20,30 @@ public class Board {
     public void initialize() throws InvalidCommandException {
         pieces.clear();
 
-        addPiece(new Rook(Colors.WHITE, new Position("A1")));
-        addPiece(new Knight(Colors.WHITE, new Position("B1")));
-        addPiece(new Bishop(Colors.WHITE, new Position("C1")));
-        addPiece(new Queen(Colors.WHITE, new Position("D1")));
-        addPiece(new King(Colors.WHITE, new Position("E1")));
-        addPiece(new Bishop(Colors.WHITE, new Position("F1")));
-        addPiece(new Knight(Colors.WHITE, new Position("G1")));
-        addPiece(new Rook(Colors.WHITE, new Position("H1")));
+        addPiece(PieceFactory.createPiece("ROOK", Colors.WHITE, "A1"));
+        addPiece(PieceFactory.createPiece("KNIGHT", Colors.WHITE, "B1"));
+        addPiece(PieceFactory.createPiece("BISHOP", Colors.WHITE, "C1"));
+        addPiece(PieceFactory.createPiece("QUEEN", Colors.WHITE, "D1"));
+        addPiece(PieceFactory.createPiece("KING", Colors.WHITE, "E1"));
+        addPiece(PieceFactory.createPiece("BISHOP", Colors.WHITE, "F1"));
+        addPiece(PieceFactory.createPiece("KNIGHT", Colors.WHITE, "G1"));
+        addPiece(PieceFactory.createPiece("ROOK", Colors.WHITE, "H1"));
 
         for (char col = 'A'; col <= 'H'; col++) {
-            addPiece(new Pawn(Colors.WHITE, new Position(col, 2)));
+            addPiece(PieceFactory.createPiece("PAWN", Colors.WHITE, new Position(col, 2)));
         }
 
-        addPiece(new Rook(Colors.BLACK, new Position("A8")));
-        addPiece(new Knight(Colors.BLACK, new Position("B8")));
-        addPiece(new Bishop(Colors.BLACK, new Position("C8")));
-        addPiece(new Queen(Colors.BLACK, new Position("D8")));
-        addPiece(new King(Colors.BLACK, new Position("E8")));
-        addPiece(new Bishop(Colors.BLACK, new Position("F8")));
-        addPiece(new Knight(Colors.BLACK, new Position("G8")));
-        addPiece(new Rook(Colors.BLACK, new Position("H8")));
+        addPiece(PieceFactory.createPiece("ROOK", Colors.BLACK, "A8"));
+        addPiece(PieceFactory.createPiece("KNIGHT", Colors.BLACK, "B8"));
+        addPiece(PieceFactory.createPiece("BISHOP", Colors.BLACK, "C8"));
+        addPiece(PieceFactory.createPiece("QUEEN", Colors.BLACK, "D8"));
+        addPiece(PieceFactory.createPiece("KING", Colors.BLACK, "E8"));
+        addPiece(PieceFactory.createPiece("BISHOP", Colors.BLACK, "F8"));
+        addPiece(PieceFactory.createPiece("KNIGHT", Colors.BLACK, "G8"));
+        addPiece(PieceFactory.createPiece("ROOK", Colors.BLACK, "H8"));
 
         for (char col = 'A'; col <= 'H'; col++) {
-            addPiece(new Pawn(Colors.BLACK, new Position(col, 7)));
+            addPiece(PieceFactory.createPiece("PAWN", Colors.BLACK, new Position(col, 7)));
         }
     }
 
@@ -284,22 +285,31 @@ public class Board {
     }
 
     private void promotePawn(Position position, Colors color, boolean allowPromotionChoice) throws InvalidCommandException {
-        String choice = "Q";
+        String choice = "QUEEN";
         if (allowPromotionChoice) {
             Scanner sc = new Scanner(System.in);
             System.out.println("Promote pawn to (Q/R/B/N)");
             String userChoice = sc.nextLine().trim().toUpperCase();
-            if (userChoice.equals("Q") || userChoice.equals("R") || userChoice.equals("B") || userChoice.equals("N")) {
-                choice = userChoice;
-            }
+            choice = switch (userChoice) {
+                case "R" -> "ROOK";
+                case "B" -> "BISHOP";
+                case "N" -> "KNIGHT";
+                case "Q" -> "QUEEN";
+                default -> "QUEEN";
+            };
         }
 
-        Piece newPiece = switch (choice) {
-            case "R" -> new Rook(color, position);
-            case "B" -> new Bishop(color, position);
-            case "N" -> new Knight(color, position);
-            default -> new Queen(color, position);
-        };
+        Piece newPiece = PieceFactory.createPromotedPiece(choice, color, position);
+
+        Piece old = getPieceAt(position);
+        if (old != null) {
+            pieces.remove(new ChessPair<>(position, old));
+        }
+        pieces.add(new ChessPair<>(position, newPiece));
+    }
+
+    public void promotePawnTo(Position position, Colors color, String pieceType) throws InvalidCommandException {
+        Piece newPiece = PieceFactory.createPromotedPiece(pieceType, color, position);
 
         Piece old = getPieceAt(position);
         if (old != null) {
