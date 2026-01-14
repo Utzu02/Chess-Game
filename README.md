@@ -51,11 +51,6 @@ This project implements **4 major design patterns** as per OOP best practices:
 - **Observer Interface**: `GameObserver` defines callback methods
 - **Concrete Observer**: `GamePanel` implements `GameObserver`
 
-**Benefits**:
-- Decouples game logic from UI updates
-- Multiple observers can react to the same event
-- Easy to add new observers without modifying game logic
-
 **Example**:
 ```java
 // Observer interface
@@ -85,11 +80,6 @@ public void notifyPieceCaptured(Piece piece) {
 - **Concrete Strategies**:
   - `PieceCaptureScoringStrategy`: Calculates points for captured pieces
   - `GameEndScoringStrategy`: Calculates bonus/penalty for game outcomes
-
-**Benefits**:
-- Easy to add new scoring algorithms
-- Scoring logic is encapsulated and reusable
-- Strategy can be changed at runtime
 
 **Example**:
 ```java
@@ -121,11 +111,6 @@ public class PieceCaptureScoringStrategy implements ScoringStrategy {
 - **Factory Class**: `PieceFactory`
 - **Products**: All piece classes (King, Queen, Rook, Bishop, Knight, Pawn)
 
-**Benefits**:
-- Centralized piece creation
-- Easy to add new piece types
-- Reduces code duplication
-
 **Example**:
 ```java
 public class PieceFactory {
@@ -152,11 +137,6 @@ public class PieceFactory {
   - `JsonReaderUtil`: Handles JSON file operations
   - Application instance management
 
-**Benefits**:
-- Prevents multiple instances of utility classes
-- Global access point
-- Controlled resource management
-
 **Example**:
 ```java
 public class JsonReaderUtil {
@@ -177,28 +157,6 @@ public class JsonReaderUtil {
 
 ## 🎨 GUI Overview
 
-### Architecture
-
-The GUI is built using **Java Swing** with a **CardLayout** system for seamless panel switching.
-
-#### Main Frame Structure
-
-```java
-public class ChessGUI extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
-
-    // All panels managed by CardLayout
-    private LoginPanel loginPanel;
-    private RegisterPanel registerPanel;
-    private MainMenuPanel mainMenuPanel;
-    private GamePanel gamePanel;
-    private EndGamePanel endGamePanel;
-}
-```
-
-### Panel Hierarchy
-
 ```
 ChessGUI (JFrame)
 ├── LoginPanel           → User authentication
@@ -211,66 +169,6 @@ ChessGUI (JFrame)
 │   └── Bottom Panel    → Control buttons
 └── EndGamePanel        → Game results summary
 ```
-
-### Design System
-
-#### Color Palette
-
-The application uses a modern dark theme:
-
-| Component | Color Code | Usage |
-|-----------|------------|-------|
-| **BG_DARK** | `#1A202C` | Main background |
-| **BG_CARD** | `#2D3748` | Panels and cards |
-| **BOARD_LIGHT** | `#F0D9B5` | Light chess squares |
-| **BOARD_DARK** | `#B58863` | Dark chess squares |
-| **TEXT_PRIMARY** | `#EDF2F7` | Main text |
-| **TEXT_SECONDARY** | `#A0AEB0` | Secondary text |
-| **ACCENT_BLUE** | `#4299E1` | Information/Continue |
-| **ACCENT_GREEN** | `#48BB78` | Success/Your turn |
-| **ACCENT_RED** | `#F56565` | Danger/Computer turn |
-| **HIGHLIGHT_SELECT** | `#FFCE54` | Selected piece |
-| **HIGHLIGHT_MOVE** | `#BAC444` | Valid move squares |
-
-#### Typography
-
-```java
-// Headers and titles
-new Font("Segoe UI", Font.BOLD, 22-28)
-
-// Body text and labels
-new Font("Segoe UI", Font.PLAIN, 14-16)
-
-// Chess pieces (Unicode symbols)
-new Font("Segoe UI", Font.PLAIN, 32-40)
-
-// Buttons
-new Font("Segoe UI", Font.BOLD, 14)
-
-// Move history (monospace)
-new Font("Consolas", Font.PLAIN, 13)
-```
-
-### Scoring System
-
-Points are awarded for captured pieces:
-
-| Piece | Points |
-|-------|--------|
-| **Pawn** (♙/♟) | 10 |
-| **Knight** (♘/♞) | 30 |
-| **Bishop** (♗/♝) | 30 |
-| **Rook** (♖/♜) | 50 |
-| **Queen** (♕/♛) | 90 |
-| **King** (♔/♚) | 0 (cannot be captured) |
-
-**Game End Bonuses**:
-- **Checkmate Win**: +300 points
-- **Checkmate Loss**: -300 points
-- **Stalemate (Draw)**: +150 points
-- **Resign**: -150 points
-
-**Note**: Points from each game are added to your cumulative total across all games.
 
 ## 📁 Project Structure
 
