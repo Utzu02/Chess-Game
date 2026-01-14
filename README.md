@@ -2,16 +2,6 @@
 
 A fully-featured chess game built with Java Swing, demonstrating advanced Object-Oriented Programming concepts and design patterns.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Architecture & Design Patterns](#architecture--design-patterns)
-- [OOP Concepts](#oop-concepts-demonstrated)
-- [GUI Overview](#gui-overview)
-- [Project Structure](#project-structure)
-
 ## 🎯 Overview
 
 Chess Master is a comprehensive chess application that allows users to play chess against an AI opponent. The project showcases professional software engineering practices, including multiple design patterns, a clean separation of concerns, and a modern graphical user interface.
