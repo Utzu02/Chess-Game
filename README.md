@@ -2,19 +2,6 @@
 
 A fully-featured chess game built with Java Swing, demonstrating advanced Object-Oriented Programming concepts and design patterns.
 
-## 🛠 Technologies Used
-
-- **Java SE 11+**: Core programming language
-- **Java Swing**: GUI framework
-- **JSON**: Data persistence format
-
-### Libraries
-
-- `javax.swing.*`: GUI components
-- `java.awt.*`: Graphics and layout management
-- Standard Java collections (`List`, `Map`, `Set`, `TreeSet`)
-- Java Streams API for functional operations
-
 ## 🏗 Architecture & Design Patterns
 
 This project implements **4 major design patterns** as per OOP best practices:
