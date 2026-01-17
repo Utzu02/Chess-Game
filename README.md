@@ -2,19 +2,6 @@
 
 A fully-featured chess game built with Java Swing, demonstrating advanced Object-Oriented Programming concepts and design patterns.
 
-## 🎯 Overview
-
-Chess Master is a comprehensive chess application that allows users to play chess against an AI opponent. The project showcases professional software engineering practices, including multiple design patterns, a clean separation of concerns, and a modern graphical user interface.
-
-### Key Highlights
-
-- **Full Chess Implementation**: Complete chess rules including castling, en passant, pawn promotion, check, checkmate, and stalemate
-- **AI Opponent**: Play against a computer opponent with legal move validation
-- **User Management**: Account system with persistent storage
-- **Game Persistence**: Save and resume multiple games
-- **Modern GUI**: Dark-themed, professional interface with Unicode chess pieces
-- **Scoring System**: Points based on captured pieces and game outcomes
-
 ## 🛠 Technologies Used
 
 - **Java SE 11+**: Core programming language
@@ -33,8 +20,6 @@ Chess Master is a comprehensive chess application that allows users to play ches
 This project implements **4 major design patterns** as per OOP best practices:
 
 ### 1. Observer Pattern
-
-**Purpose**: Enables the game to notify multiple UI components about game state changes without tight coupling.
 
 **Implementation**:
 - **Subject**: `Game` class maintains a list of observers
@@ -62,8 +47,6 @@ public void notifyPieceCaptured(Piece piece) {
 ```
 
 ### 2. Strategy Pattern
-
-**Purpose**: Defines a family of algorithms (scoring strategies) and makes them interchangeable.
 
 **Implementation**:
 - **Strategy Interface**: `ScoringStrategy`
@@ -95,8 +78,6 @@ public class PieceCaptureScoringStrategy implements ScoringStrategy {
 
 ### 3. Factory Pattern
 
-**Purpose**: Creates chess pieces without exposing the creation logic.
-
 **Implementation**:
 - **Factory Class**: `PieceFactory`
 - **Products**: All piece classes (King, Queen, Rook, Bishop, Knight, Pawn)
@@ -119,8 +100,6 @@ public class PieceFactory {
 ```
 
 ### 4. Singleton Pattern
-
-**Purpose**: Ensures only one instance of certain utility classes exists.
 
 **Implementation**:
 - **Singleton Classes**:
