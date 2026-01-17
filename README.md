@@ -1,4 +1,4 @@
-# Chess Master - Java OOP Project
+# Chess Master - Java POO Project
 
 A fully-featured chess game built with Java Swing, demonstrating advanced Object-Oriented Programming concepts and design patterns.
 
